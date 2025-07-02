@@ -1,7 +1,7 @@
 // 域名目标
 const TARGET_DOMAIN = "apichuanti.scleader.cn";
 // 存储键名
-const STORE_KEY = "ytxs_authorization_cookie";
+const STORE_KEY = "ytxs";
 
 (function() {
     // 只处理目标域名的请求
