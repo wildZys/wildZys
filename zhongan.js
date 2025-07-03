@@ -11,7 +11,7 @@
 
 // ========================== 配置区 ==========================
 const targetHeader = "access-token"; // 你要抓取的 header key（支持大小写）
-const storageKey = "captured_token"; // 存储到 Loon 本地的 key 名称
+const storageKey = "zhan"; // 存储到 Loon 本地的 key 名称
 // ===========================================================
 
 if ($request && $request.headers) {
