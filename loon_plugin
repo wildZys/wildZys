@@ -1,0 +1,8 @@
+[Script]
+# 通用请求头参数捕获插件（自定义）
+# 修改 pattern 为目标域名
+# 修改 script-path 为你的托管脚本链接
+抓取Token模板 = type=http-request, pattern=^https:\/\/ihealth\.zhongan\.com\/, requires-body=0, script-path=https://yourdomain.com/token_template.js, timeout=10
+
+[MITM]
+hostname = ihealth.zhongan.com
