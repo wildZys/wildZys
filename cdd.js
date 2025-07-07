@@ -12,7 +12,7 @@
 
 [Script]
 # 定时签到
-cron "0 9 * * *" script-path=candashi.js,tag=餐大大签到
+cron "0 9 * * *" script-path=https://raw.githubusercontent.com/wildZys/wildZys/refs/heads/main/cdd.js,tag=餐大大签到
 
 # 抓 token & 清理 token
 http-request ^https:\/\/app\.candashi\.cn\/api\/api\/v2\/user\/api_user_sign_in|https:\/\/candashi\.clear url script-request-header candashi.js
