@@ -1,4 +1,18 @@
-// ==Quantumult X 脚本==
+
+// ==一品仓获取Cookie 
+
+/*^
+[rewrite_remote]
+^https:\/\/ypc-services\.shanghaicang\.com\.cn\/vip-member-service\/app\/checkUser url script-request-body ypc.js
+
+[mitm]
+hostname = ypc-services.shanghaicang.com.cn
+
+[task_local]
+# 这里只是一个示例，根据你的需求填写
+# 0 0 * * * ypc_task.js, tag=一品仓签到, img-url=https://example.com/icon.png, enabled=true
+*/
+
 try {
     if (typeof $request === 'undefined') {
         console.log("⚠️ ypc.js: $request 未定义");
