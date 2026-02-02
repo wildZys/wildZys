@@ -1,10 +1,4 @@
 // ==Quantumult X 脚本==
-
-/*^重写
-https://ypc-services.shanghaicang.com.cn/vip-member-service/app/checkUser url script-request-body ypc.js
-
-mitm ypc-services.shanghaicang.com.cn
-*/
 try {
     if (typeof $request === 'undefined') {
         console.log("⚠️ ypc.js: $request 未定义");
@@ -26,40 +20,81 @@ try {
 
     if (req_body) {
         try {
-            // 第一层解析：解析请求体
+            // --- 1. 解析数据 ---
             let req_data = JSON.parse(req_body);
             
-            // 直接提取 token (顶层字段)
+            // 提取顶层 Token
             token = req_data.token || "";
-
-            // 特殊处理 bizData：它是一个字符串，需要二次解析
+            
+            // 解析 bizData 里的 UserId
             let bizDataStr = req_data.bizData;
             if (bizDataStr) {
-                // 第二层解析：解析 bizData 字符串
                 let bizDataObj = JSON.parse(bizDataStr);
                 userId = bizDataObj.userId || "";
             }
 
-            console.log(`🔍 抓包解析 -> userId: ${userId}, token: ${token}`);
+            if (!userId || !token) {
+                console.log("❌ 解析失败，缺少 userId 或 token");
+                $done({});
+                return;
+            }
+
+            console.log(`🔍 捕获新账号 -> userId: ${userId}`);
+
+            // --- 2. 处理多账号逻辑 ---
+            // 2.1 读取已存在的所有账号 (从存储中读取 JSON 字符串并解析为数组)
+            let allAccounts = [];
+            let storedData = $prefs.valueForKey("ypc");
+            
+            if (storedData) {
+                try {
+                    // 尝试解析旧数据
+                    let parsed = JSON.parse(storedData);
+                    // 确保解析出来的是数组
+                    if (Array.isArray(parsed)) {
+                        allAccounts = parsed;
+                    } else {
+                        // 如果旧数据不是数组（比如是旧格式的字符串），尝试修复或初始化
+                        console.log("⚠️ 检测到旧数据格式，尝试迁移...");
+                        // 简单处理：如果是单个账号字符串，将其转为数组
+                        if (typeof parsed === "string" && parsed.includes("#")) {
+                            allAccounts = [parsed];
+                        }
+                    }
+                } catch (e) {
+                    console.log(" 数据解析错误，重置账号列表");
+                }
+            }
+
+            // 2.2 去重检查：检查当前 userId 是否已存在
+            let exists = allAccounts.some(account => {
+                // account 格式为 "userId#token"
+                return account.split("#") === userId;
+            });
+
+            if (exists) {
+                console.log(`ℹ️ 账号 ${userId} 已存在，跳过存储`);
+                $done({});
+                return;
+            }
+
+            // 2.3 添加新账号
+            let newAccount = `${userId}#${token}`;
+            allAccounts.push(newAccount);
+            console.log(`✅ 已添加账号，当前共 ${allAccounts.length} 个账号`);
+
+            // --- 3. 保存数据 ---
+            // 将数组转换回 JSON 字符串存储
+            let saveSuccess = $prefs.setValueForKey(JSON.stringify(allAccounts), "ypc");
+            
+            if (saveSuccess) {
+                console.log("💾 多账号数据保存成功");
+                $notify("一品仓", "新账号绑定成功", `账号: ${userId}\n当前总数: ${allAccounts.length}`);
+            }
 
         } catch (e) {
-            console.log(` 请求体处理异常: ${e.message}`);
+            console.log(`🚨 脚本执行异常: ${e.message}`);
         }
-    }
-
-    // 只有当 userId 和 token 都存在时才存储
-    if (userId && token) {
-        let ypcValue = `${userId}#${token}`;
-        console.log(`✅ 成功拼接 ypc 变量: ${ypcValue}`);
-
-        // 存储数据
-        let saveSuccess = $prefs.setValueForKey(ypcValue, "ypc");
-        if (saveSuccess) {
-            console.log("💾 ypc 变量保存成功");
-            $notify("一品仓", "Token获取成功", `账号: ${userId}`);
-        }
-    } else {
-        console.log("❌ 数据缺失，未执行存储");
     }
 
 } catch (error) {
