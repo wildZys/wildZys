@@ -1,8 +1,0 @@
-
-
-[Script]
-# ZhongAn Token 抓取插件
-ZhongAn Token 抓取 = type=http-request, pattern=^https:\/\/ihealth\.zhongan\.com\/, requires-body=0, script-path=https://raw.githubusercontent.com/wildZys/wildZys/refs/heads/main/zhongan.js, timeout=10
-
-[MITM]
-hostname = ihealth.zhongan.com
