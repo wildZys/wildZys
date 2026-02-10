@@ -131,7 +131,10 @@ async function main() {
 
     // ===== 获取请求上下文 =====
     let ctx = getRequestContext();
-    
+    if (!ctx.url.includes(TARGET_URL)) {
+        debug(`跳过 URL: ${ctx.url}`);
+        return;
+    }
     let scanText = [ctx.url, ctx.body, ctx.headers, ctx.response].join("&");
 
     // ===== 扫描 userId & token =====
