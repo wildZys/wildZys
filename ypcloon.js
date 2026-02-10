@@ -1,7 +1,16 @@
 /***********************
  * 通用插件脚本骨架
  * Author: wildZys
- ***********************/
+[rewrite_remote]
+^https:\/\/ypc-services\.shanghaicang\.com\.cn\/vip-member-service\/app\/checkUser url script-request-body https://raw.githubusercontent.com/wildZys/wildZys/refs/heads/main/ypc.js
+
+[mitm]
+hostname = ypc-services.shanghaicang.com.cn
+
+[task_local]
+# 这里只是一个示例，根据你的需求填写
+# 0 0 * * * https://raw.githubusercontent.com/wildZys/wildZys/refs/heads/main/ypc.js, tag=一品仓签到, img-url=https://example.com/icon.png, enabled=true
+************************/
 
 // ===== DEBUG 开关 =====
 const DEBUG = false; // 👉 TODO: 可根据需要打开调试日志
@@ -11,7 +20,7 @@ function getScriptKey(defaultName) {
     try {
         if (typeof $script !== "undefined") {
             let name = $script.name || $script.filename;
-            if (name) return name.replace(/\.js$/i, "");
+            if (name) return name.替换(/\.js$/i, "");
         }
     } catch {}
     return defaultName;
@@ -117,9 +126,12 @@ function saveAccounts(allAccounts) {
 async function main() {
     debug("脚本启动");
     debug("当前存储Key：" + STORAGE_KEY);
+    // ===== 指定抓取 URL =====
+    const TARGET_URL = "https://ypc-services.shanghaicang.com.cn/vip-member-service/app/checkUser"; // 🔴 TODO: 改成你的目标 URL
 
     // ===== 获取请求上下文 =====
     let ctx = getRequestContext();
+    
     let scanText = [ctx.url, ctx.body, ctx.headers, ctx.response].join("&");
 
     // ===== 扫描 userId & token =====
