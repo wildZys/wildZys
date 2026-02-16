@@ -9,4 +9,4 @@ hostname = m.aihoge.com
 
 [Script]
 # 匹配目标 URL，触发脚本执行
-http-request ^https:\/\/m\.aihoge\.com\/api\/lotteryhy\/api\/client\/cj\/send\/pak script-path=aihoge.js, tag=获取Member值, enable=true
+http-request ^https:\/\/m\.aihoge\.com\/api\/lotteryhy\/api\/client\/cj\/send\/pak script-path=https://raw.githubusercontent.com/wildZys/wildZys/refs/heads/main/aihoge.js, tag=获取Member值, enable=true
