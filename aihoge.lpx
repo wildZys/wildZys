@@ -1,0 +1,12 @@
+#!name = Aihoge Header 提取器
+#!desc = 自动抓取 m.aihoge.com 接口请求头中的 member 字段并保存。
+#!author = Gemini
+#!icon = https://raw.githubusercontent.com/luestr/IconSet/master/AppIcon/Aihoge.png
+#!date = 2024-05-20
+
+[MITM]
+hostname = m.aihoge.com
+
+[Script]
+# 匹配目标 URL，触发脚本执行
+http-request ^https:\/\/m\.aihoge\.com\/api\/lotteryhy\/api\/client\/cj\/send\/pak script-path=aihoge.js, tag=获取Member值, enable=true
