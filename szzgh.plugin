@@ -1,0 +1,18 @@
+#!name=获取szzgh精准Cookie
+#!desc=自动抓取并清洗JSESSIONID，剔除无关参数。
+#!author=编码助手
+#!icon=https://raw.githubusercontent.com/luestr/IconCenter/master/bottari/szzgh.png
+
+[Rule]
+# 如果有特定的分流需求可以添加，此处保持默认
+
+[Rewrite]
+# 拦截目标URL并执行脚本
+^https:\/\/miniapp-gig\.szzgh\.org\/benefits\/web-plat\/snapped\/ script-path=https://raw.githubusercontent.com/wildZys/wildZys/refs/heads/main/szzgh.js, tag=提取JSESSIONID
+
+[Script]
+# 也可以直接在Loon内指向下方提供的脚本逻辑
+#http-request ^https:\/\/miniapp-gig\.szzgh\.org\/benefits\/web-plat\/snapped\/ script-path=https://raw.githubusercontent.com/yourname/scripts/main/szzgh.js, tag=提取JSESSIONID
+
+[MITM]
+hostname = miniapp-gig.szzgh.org
