@@ -1,22 +1,17 @@
-#!name=GLaDOS 自动签到
+#!name=GLaDOS 自动签到 (Loon版)
 #!desc=自动获取 GLaDOS 会话并执行每日签到。需先访问官网登录页面以获取 Cookie。
-#!author=ddgksf2013
-#!homepage=https://t.me/ddgksf2021
-#!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/mini/GLaDOS.png
-#!date=2026-02-17 23:45:00
+#!author=wild
 
 [Rule]
-# 确保签到域名直连或走对应策略
 DOMAIN-SUFFIX, glados.space, DIRECT
 DOMAIN-SUFFIX, glados.cloud, DIRECT
 
-[Rewrite]
-# 获取 Cookie 规则
-^https?:\/\/glados\.[a-z]+\/api\/user\/checkin script-path=https://ddgksf2013.top/scripts/glados.autosign.js, requires-body=false, tag=获取Glados会话
-
 [Script]
-# 定时签到任务：每日 7:15 和 15:15 执行
-cron "15 7,15 * * *" script-path=https://ddgksf2013.top/scripts/glados.autosign.js, tag=GLaDOS签到
+# 获取 Cookie：拦截签到请求头
+http-request ^https?:\/\/glados\.[a-z]+\/api\/user\/checkin script-path=https://ddgksf2013.top/scripts/glados.autosign.js, requires-body=false, tag=获取Glados会话
+
+# 定时任务：每日 07:15 和 15:15 自动签到
+cron "15 7,15 * * *" script-path=https://ddgksf2013.top/scripts/glados.autosign.js, tag=GLaDOS定时签到
 
 [MITM]
 hostname = glados.*
