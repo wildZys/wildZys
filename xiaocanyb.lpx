@@ -7,7 +7,7 @@
 hostname = gw.xiaocantech.com
 
 [Script]
-http-request ^https?:\/\/gw\.xiaocantech\.com\/rpc script-path=headers_capture.js, tag=抓取VayneTeemoSivir, requires-body=false, enable=true
+http-request ^https?:\/\/gw\.xiaocantech\.com\/rpc script-path=https://raw.githubusercontent.com/wildZys/wildZys/refs/heads/main/xcyb.js, tag=抓取VayneTeemoSivir, requires-body=false, enable=true
 
 [Script]
 # 主脚本代码
