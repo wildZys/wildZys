@@ -1,0 +1,10 @@
+#!name = 抓包插件 - lsapp.szzgh.org
+#!desc = 自动抓取 token 和 mobile，格式：userId#mobile#token
+#!openUrl = https://lsapp.szzgh.org:99
+#!author = Antigravity
+#!version = 1.0
+
+[Script]
+request if ${url} == "https://lsapp.szzgh.org:99/api/tracking/ebs/sigpageaccess/save" then script("szzghtoken.js") with enable=false, tag="SZZGH抓包", timeout=10, requires_body=true
+[MITM]
+hostname = lsapp.szzgh.org
