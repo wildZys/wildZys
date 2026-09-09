@@ -62,7 +62,7 @@ if (!token && bodyObj.access_token) {
 
 // ========== 组合输出格式 ==========
 if (mobile || token) {
-    const result = `${userId}#${mobile}#${token}`;
+    const result = `${mobile}#${token}`;
     
     
 		console.log("==== lsapp 抓包结果 ====");
